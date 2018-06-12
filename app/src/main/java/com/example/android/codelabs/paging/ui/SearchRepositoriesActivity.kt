@@ -17,7 +17,6 @@
 package com.example.android.codelabs.paging.ui
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -29,23 +28,19 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.example.android.codelabs.paging.R
-import com.example.android.codelabs.paging.Injection
 import com.example.android.codelabs.paging.model.Repo
 import kotlinx.android.synthetic.main.activity_search_repositories.*
+import org.koin.android.architecture.ext.viewModel
 
 
 class SearchRepositoriesActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SearchRepositoriesViewModel
+    val viewModel : SearchRepositoriesViewModel by viewModel()
     private val adapter = ReposAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_repositories)
-
-        // get the view model
-        viewModel = ViewModelProviders.of(this, Injection.provideViewModelFactory(this))
-                .get(SearchRepositoriesViewModel::class.java)
 
         // add dividers between RecyclerView's row items
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
