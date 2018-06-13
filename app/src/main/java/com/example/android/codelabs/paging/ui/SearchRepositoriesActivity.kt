@@ -17,11 +17,10 @@
 package com.example.android.codelabs.paging.ui
 
 import android.arch.lifecycle.Observer
+import android.arch.paging.PagedList
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
@@ -45,8 +44,6 @@ class SearchRepositoriesActivity : AppCompatActivity() {
         // add dividers between RecyclerView's row items
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         list.addItemDecoration(decoration)
-        setupScrollListener()
-
         initAdapter()
         val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
         viewModel.searchRepo(query)
@@ -60,7 +57,7 @@ class SearchRepositoriesActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         list.adapter = adapter
-        viewModel.repos.observe(this, Observer<List<Repo>> {
+        viewModel.repos.observe(this, Observer<PagedList<Repo>> {
             Log.d("Activity", "list: ${it?.size}")
             showEmptyList(it?.size == 0)
             adapter.submitList(it)
@@ -111,19 +108,6 @@ class SearchRepositoriesActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupScrollListener() {
-        val layoutManager = list.layoutManager as LinearLayoutManager
-        list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val totalItemCount = layoutManager.itemCount
-                val visibleItemCount = layoutManager.childCount
-                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-
-                viewModel.listScrolled(visibleItemCount, lastVisibleItem, totalItemCount)
-            }
-        })
-    }
 
     companion object {
         private const val LAST_SEARCH_QUERY: String = "last_search_query"

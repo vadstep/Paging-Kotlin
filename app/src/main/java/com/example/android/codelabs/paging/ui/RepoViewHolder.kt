@@ -30,11 +30,11 @@ import com.example.android.codelabs.paging.model.Repo
  * View Holder for a [Repo] RecyclerView list item.
  */
 class RepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val name: TextView = view.findViewById(R.id.repo_name)
-    private val description: TextView = view.findViewById(R.id.repo_description)
-    private val stars: TextView = view.findViewById(R.id.repo_stars)
-    private val language: TextView = view.findViewById(R.id.repo_language)
-    private val forks: TextView = view.findViewById(R.id.repo_forks)
+    private val name: TextView = view.findViewById(R.id.repo_name) as TextView
+    private val description: TextView = view.findViewById(R.id.repo_description) as TextView
+    private val stars: TextView = view.findViewById(R.id.repo_stars)as TextView
+    private val language: TextView = view.findViewById(R.id.repo_language)as TextView
+    private val forks: TextView = view.findViewById(R.id.repo_forks)as TextView
 
     private var repo: Repo? = null
 
